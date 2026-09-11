@@ -1,6 +1,8 @@
+import { env } from "../env"
+
 export const authCOnfig = {
     jwt: {
-        secret: process.env.JWT_SECRET,
+        secret: env.JWT_SECRET,
         expiresIn: "1d"
     }
 }
