@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { AppError } from "@/utils/AppError"
-import { authCOnfig } from "@/config/auth"
+import { authConfig } from "@/config/auth"
 import { prisma } from "@/database/prisma"
 import { compare } from "bcrypt"
 import { sign } from "jsonwebtoken"
@@ -30,7 +30,7 @@ class SessionController {
             throw new AppError("Invalid email or password", 401)
         }
 
-        const { secret, expiresIn} = authCOnfig.jwt
+        const { secret, expiresIn} = authConfig.jwt
 
         const token = sign({ role: user.role ?? "customer"}, secret, {
             subject: user.id,
