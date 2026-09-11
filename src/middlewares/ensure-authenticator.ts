@@ -9,7 +9,7 @@ interface TokenPayload{
     sub: string
 }
 
-function ensureAuthenticatir(
+function ensureAuthenticator(
     request: Request, 
     response: Response, 
     next: NextFunction
@@ -30,8 +30,10 @@ function ensureAuthenticatir(
             role
         }
 
-        return next
+        return next()
     }catch(error){
         throw new AppError("Invalid JWT token", 401)
     }
 }
+
+export {ensureAuthenticator}
