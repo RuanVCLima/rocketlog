@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { prisma } from "@/database/prisma"
 import { z } from "zod"
 import { AppError } from "@/utils/AppError"
+import { appendFile } from "fs"
 
 class DeliveryLogsController {
     async create (request: Request, response: Response){
@@ -19,6 +20,10 @@ class DeliveryLogsController {
 
         if(!delivery){
             throw new AppError("Delivery not found", 404)
+        }
+
+        if(delivery.status === "delivered"){
+            throw new AppError("this order has already been delivered")
         }
 
         if(delivery.status === "processing"){
