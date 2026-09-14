@@ -1,9 +1,13 @@
 import request from "supertest"
 import { app } from "@/app"
-import { Prisma } from "@prisma/client"
+import { prisma } from "@/database/prisma"
 
 describe("SessionsController", ()=>{
     let user_id: string
+
+    afterAll( async ()=>{
+        await prisma.user.delete({where: {id:user_id}})
+    })
 
     it("should authenticate and get access token", async ()=>{
         const userResponse = await request(app).post("/users").send({
@@ -20,6 +24,7 @@ describe("SessionsController", ()=>{
         })
 
         expect(sessionResponse.status).toBe(200)
+        
         expect(sessionResponse.body.token).toEqual(expect.any(String))
     })
 })
