@@ -76,7 +76,9 @@ A API utiliza JWT (JSON Web Token) para autenticação.
 
 Após realizar o login, a API retorna um token que deve ser enviado nas requisições protegidas através do header:
 
+```http
 Authorization: Bearer <token>
+```
 
 O middleware de autenticação valida o token e disponibiliza o ID e o perfil do usuário para as próximas etapas da requisição.
 
@@ -96,20 +98,27 @@ O middleware verifyUserAuthorization verifica se o usuário autenticado possui u
 
 Exemplo:
 
+```http
 POST /deliveries
+```
 
 Body:
 
+```JSON
 {
   "user_id": "UUID_DO_USUARIO",
   "description": "Entrega de documentos"
 }
 
+```
+
 Os dados são validados utilizando Zod antes de serem persistidos no banco de dados.
 
 Também é possível listar as entregas cadastradas:
 
+```http
 GET /deliveries
+```
 
 A listagem inclui informações do usuário associado à entrega.
 
@@ -117,19 +126,23 @@ A listagem inclui informações do usuário associado à entrega.
 
 As entregas podem possuir os seguintes status:
 
-processing
-shipped
-delivered
+`processing`
+`shipped`
+`delivered`
 
 O status pode ser atualizado através de:
 
+```http
 PATCH /deliveries/:id/status
+```
 
 Exemplo:
 
+```JSON
 {
   "status": "shipped"
 }
+```
 
 Quando o status de uma entrega é atualizado, um registro também é criado no histórico da entrega.
 
@@ -137,20 +150,26 @@ Quando o status de uma entrega é atualizado, um registro também é criado no h
 
 A API permite registrar eventos relacionados às entregas.
 
+```http
 POST /delivery-logs
+```
 
 Body:
 
+```JSON
 {
   "delivery_id": "UUID_DA_ENTREGA",
   "description": "Encomenda saiu para entrega"
 }
+```
 
 O sistema verifica se a entrega existe e também impede determinadas operações de acordo com o status atual da encomenda.
 
 Para consultar uma entrega e seus respectivos logs:
 
+```http
 GET /delivery-logs/:delivery_id/show
+```
 
 A resposta contém informações da entrega, do usuário e dos registros de histórico. Clientes também são impedidos de consultar entregas pertencentes a outros usuários.
 
@@ -168,23 +187,32 @@ A resposta contém informações da entrega, do usuário e dos registros de hist
 As rotas são centralizadas através do router principal da aplicação.
 
 ⚙️ Como executar o projeto
+
 1. Clone o repositório
 
+```bash
 git clone <URL_DO_REPOSITORIO>
+```
 
 2. Acesse a pasta
 
+```bash
 cd rocketlog
+```
 
 3. Instale as dependências
 
+```bash
 npm install
+```
 
 4. Configure as variáveis de ambiente
 
 Crie um arquivo .env baseado no arquivo:
 
+```bash
 .env-example
+```
 
 Configure as variáveis necessárias para conexão com o banco de dados e autenticação da aplicação.
 
@@ -192,11 +220,15 @@ Configure as variáveis necessárias para conexão com o banco de dados e autent
 
 Execute as configurações/migrations do Prisma conforme a configuração existente no projeto.
 
+```bash
 npx prisma migrate dev
+```
 
 6. Execute a aplicação
 
+```bash
 npm run dev
+```
 
 O projeto possui um script de desenvolvimento configurado com tsx, executando o servidor em modo watch.
 
@@ -204,13 +236,15 @@ O projeto possui um script de desenvolvimento configurado com tsx, executando o 
 
 O projeto utiliza:
 
-Jest
-Supertest
-ts-jest
+`Jest`
+`Supertest`
+`ts-jest`
 
 Para executar os testes em modo de desenvolvimento:
 
+```bash
 npm run test:dev
+```
 
 O script de testes está configurado no package.json.
 
@@ -230,18 +264,18 @@ Erros personalizados utilizando AppError retornam o status HTTP correspondente, 
 
 O Rocketlog foi desenvolvido como uma API para praticar e demonstrar conceitos importantes do desenvolvimento backend, incluindo:
 
-Desenvolvimento de APIs REST
-TypeScript
-Arquitetura baseada em Controllers, Routes e Middlewares
-Autenticação e autorização
-JWT
-Hash de senhas
-ORM com Prisma
-Validação de dados
-Controle de acesso por roles
-Tratamento de erros
-Testes automatizados
-Integração com banco de dados
+-Desenvolvimento de APIs REST
+-TypeScript
+-Arquitetura baseada em Controllers, Routes e Middlewares
+-Autenticação e autorização
+-JWT
+-Hash de senhas
+-ORM com Prisma
+-Validação de dados
+-Controle de acesso por roles
+-Tratamento de erros
+-Testes automatizados
+-Integração com banco de dados
 👨‍💻 Autor
 
 Ruan Victor
